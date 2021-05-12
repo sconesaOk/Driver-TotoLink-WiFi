@@ -11,11 +11,15 @@ fi
 cd $DRV_PATH
 echo Working dir $DRV_PATH
 
-echo $'* Compiling... \n'
+RED='\033[0;31m'
+YELLOW='\033[1;33'
+GREEN='\033[1;32'
+
+echo -e $'${YELLOW}* Compiling... \n'
 make >$(tty)
 
 echo $'\n\n\n'
-echo $'* Installing... \n'
+echo -e $'${YELLOW}* Installing... \n'
 
 #removing module
 rmmod 8812au
@@ -23,18 +27,18 @@ rmmod 8812au
 #installing module
 insmod ${DRV_PATH}/8812au.ko  >$(tty) &&
 wait $! || { # catch 
-    echo $'* Error found, retrying install. \n'
-    echo $'* recompiling... \n'
+    echo -e $'${YELLOW}* ${RED}Error found, retrying install. \n'
+    echo -e $'${YELLOW}* recompiling... \n'
     #recompiling
     make clean
     make all
 
     echo $'\n\n\n'
-    echo $'* Installing... \n'
+    echo -e $'${YELLOW}* Installing... \n'
     insmod ${DRV_PATH}/8812au.ko >$(tty) 
 }
 
-echo $'\nToto Link wi-fi driver - installed Ok! \n'
+echo -e '\n${GREEN}Toto Link wi-fi driver - installed Ok! \n'
 
 echo $'\n\n\n'
 read -p 'Press [Enter] key to continue...'
