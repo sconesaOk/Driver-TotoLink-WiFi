@@ -23,8 +23,8 @@ rmmod 8812au
 #installing module
 insmod ${DRV_PATH}/8812au.ko  >$(tty) &&
 wait $! || { # catch 
-    echo $'* Error found, recompiling... \n'
-
+    echo $'* Error found, retrying install. \n'
+    echo $'* recompiling... \n'
     #recompiling
     make clean
     make all
