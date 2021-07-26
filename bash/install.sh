@@ -1,5 +1,11 @@
 #!/bin/bash
 
+RED='\e[1;31m '
+YELLOW='\e[1;33m '
+GREEN='\e[1;32m '
+RESET='\e[0m '
+LightBlue='\e[1;34m '
+
 
 DRV_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/rtl8812AU_linux_v5.6.4.2_35491.20191025"
 
@@ -9,17 +15,14 @@ if [ "$EUID" != 0 ]; then
 fi
 
 cd $DRV_PATH
-echo Working dir $DRV_PATH
+echo -e "${LightBlue}Working dir: ${DRV_PATH}"
 
-RED='\033[0;31m'
-YELLOW='\033[1;33'
-GREEN='\033[1;32'
 
-echo -e $'${YELLOW}* Compiling... \n'
+echo -e "${YELLOW}* Compiling... \n ${RESET}"
 make >$(tty)
 
-echo $'\n\n\n'
-echo -e $'${YELLOW}* Installing... \n'
+echo "\n\n\n"
+echo -e "${YELLOW}* Installing... \n ${RESET}"
 
 #removing module
 rmmod 8812au
@@ -27,19 +30,19 @@ rmmod 8812au
 #installing module
 insmod ${DRV_PATH}/8812au.ko  >$(tty) &&
 wait $! || { # catch 
-    echo -e $'${YELLOW}* ${RED}Error found, retrying install. \n'
-    echo -e $'${YELLOW}* recompiling... \n'
+    echo -e "${YELLOW}* ${RED}Error found, retrying install. \n ${RESET}"
+    echo -e "${YELLOW}* recompiling... \n ${RESET}"
     #recompiling
     make clean
     make all
 
-    echo $'\n\n\n'
-    echo -e $'${YELLOW}* Installing... \n'
+    echo "\n\n\n"
+    echo -e "${YELLOW}* Installing... \n ${RESET}"
     insmod ${DRV_PATH}/8812au.ko >$(tty) 
 }
 
-echo -e '\n${GREEN}Toto Link wi-fi driver - installed Ok! \n'
+echo -e "\n${GREEN}Toto Link wi-fi driver - installed Ok! \n ${RESET}"
 
-echo $'\n\n\n'
-read -p 'Press [Enter] key to continue...'
+echo "\n\n\n"
+read -p "Press [Enter] key to continue..."
 
