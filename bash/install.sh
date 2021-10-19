@@ -15,13 +15,14 @@ if [ "$EUID" != 0 ]; then
 fi
 
 cd $DRV_PATH
-echo -e "${LightBlue}Working dir: ${DRV_PATH}"
+echo -e "\n\n\n"
+echo -e "${LightBlue} Working dir: ${DRV_PATH}"
 
-
+echo -e "\n\n\n"
 echo -e "${YELLOW}* Compiling... \n ${RESET}"
 make >$(tty)
 
-echo "\n\n\n"
+echo -e "\n\n\n"
 echo -e "${YELLOW}* Installing... \n ${RESET}"
 
 #removing module
@@ -36,13 +37,13 @@ wait $! || { # catch
     make clean
     make all
 
-    echo "\n\n\n"
+    echo -e "\n\n\n"
     echo -e "${YELLOW}* Installing... \n ${RESET}"
     insmod ${DRV_PATH}/8812au.ko >$(tty) 
 }
 
 echo -e "\n${GREEN}Toto Link wi-fi driver - installed Ok! \n ${RESET}"
 
-echo "\n\n\n"
+echo -e "\n\n\n"
 read -p "Press [Enter] key to continue..."
 
